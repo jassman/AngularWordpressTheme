@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PostsService } from '../posts.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Post } from '../post';
+import { WpPost } from '../post-list/post-list';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
@@ -13,19 +13,22 @@ import 'rxjs/add/operator/switchMap';
 })
 export class PostSingleComponent implements OnInit {
 
-  post: Post;
+  post: WpPost;
 
-  constructor( private postsService: PostsService, private route: ActivatedRoute ) { }
+  constructor(private postsService: PostsService, private route: ActivatedRoute) { }
 
   ngOnInit() {
 
     this.route.paramMap
-    .switchMap((params: ParamMap) =>
-      this.postsService.getPost(params.get('slug')))
-    .subscribe(
-      (post: Post[]) => this.post = post[0],
-      (err: HttpErrorResponse) => err.error instanceof Error ? console.log('An error occurred:', err.error.message) : console.log(`Backend returned code ${err.status}, body was: ${err.error}`)
-    );
+      .switchMap((params: ParamMap) =>
+        this.postsService.getPost(params.get('slug')))
+      .subscribe(
+      (post: WpPost[]) => this.post = post[0],
+      (err: HttpErrorResponse) =>
+        err.error instanceof Error
+          ? console.log('An error occurred:', err.error.message)
+          : console.log(`Backend returned code ${err.status}, body was: ${err.error}`)
+      );
 
   }
 

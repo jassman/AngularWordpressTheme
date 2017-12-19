@@ -1,8 +1,21 @@
-<ul>
-  <li *ngFor="let post of posts" (click)="selectPost(post.slug)">
-    {{ post.title.rendered }}
-  </li>
-  <li *ngFor="let m of menu" (click)="selectPost(post.slug)">
-      {{ post.title.rendered }}
-    </li>
-</ul>
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-12 cabecera-home" 
+          [ngStyle]="{'background-image': 'url(' + page_options['imagen_cabecera_home'].url + ')'}">
+          <div class="container">
+            <h1>{{page_options.cabecera_home}}</h1>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-xs-12" *ngFor="let post of posts">
+      <div class="img-post" 
+          [ngStyle]="{'background-image': 'url(' + post._embedded['wp:featuredmedia'][0].source_url + ')'}"
+          (click)="selectPost(post.slug)"></div>
+      <p class="tit-post" (click)="selectPost(post.slug)" >{{ post.title.rendered }}</p>
+    </div>
+  </div>
+</div>
